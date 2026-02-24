@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "title": "Wireless Noise-Cancelling Headphones",
+        "price": 79.99,
+        "category": "Electronics",
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 2,
+        "title": "Mechanical Gaming Keyboard",
+        "price": 49.99,
+        "category": "Electronics",
+        "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 3,
+        "title": "4K USB-C Monitor 27\"",
+        "price": 299.99,
+        "category": "Electronics",
+        "image": "https://images.unsplash.com/photo-1527443224154-c4a573d5f5e3?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 4,
+        "title": "Portable Bluetooth Speaker",
+        "price": 34.99,
+        "category": "Electronics",
+        "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 5,
+        "title": "Smart Watch Pro Series 5",
+        "price": 199.99,
+        "category": "Electronics",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 6,
+        "title": "Men's Running Sneakers",
+        "price": 59.99,
+        "category": "Clothing",
+        "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 7,
+        "title": "Classic Denim Jacket",
+        "price": 44.99,
+        "category": "Clothing",
+        "image": "https://images.unsplash.com/photo-1601933470096-0e34634ffcde?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 8,
+        "title": "Women's Yoga Leggings",
+        "price": 27.99,
+        "category": "Clothing",
+        "image": "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 9,
+        "title": "Leather Crossbody Bag",
+        "price": 39.99,
+        "category": "Clothing",
+        "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 10,
+        "title": "Polarized Sunglasses",
+        "price": 22.99,
+        "category": "Clothing",
+        "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 11,
+        "title": "Non-Stick Frying Pan Set",
+        "price": 35.99,
+        "category": "Home",
+        "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 12,
+        "title": "Ergonomic Office Chair",
+        "price": 189.99,
+        "category": "Home",
+        "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 13,
+        "title": "Minimalist Desk Lamp",
+        "price": 24.99,
+        "category": "Home",
+        "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 14,
+        "title": "Ceramic Plant Pot Set",
+        "price": 18.99,
+        "category": "Home",
+        "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 15,
+        "title": "Weighted Blanket 15lbs",
+        "price": 49.99,
+        "category": "Home",
+        "image": "https://images.unsplash.com/photo-1631049035182-249067d7618e?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 16,
+        "title": "Yoga Mat with Alignment Lines",
+        "price": 29.99,
+        "category": "Sports",
+        "image": "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 17,
+        "title": "Adjustable Dumbbell Set",
+        "price": 89.99,
+        "category": "Sports",
+        "image": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 18,
+        "title": "Resistance Bands Pack (5 Levels)",
+        "price": 14.99,
+        "category": "Sports",
+        "image": "https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 19,
+        "title": "Protein Shaker Bottle",
+        "price": 12.99,
+        "category": "Sports",
+        "image": "https://images.unsplash.com/photo-1622643048696-883b48716d8e?w=400&h=400&fit=crop"
+    },
+    {
+        "id": 20,
+        "title": "Jump Rope Speed Cable",
+        "price": 9.99,
+        "category": "Sports",
+        "image": "https://images.unsplash.com/photo-1434608519344-49d77a124f48?w=400&h=400&fit=crop"
+    }
+]
