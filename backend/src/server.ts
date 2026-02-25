@@ -15,15 +15,6 @@ const PORT: number = parseInt(process.env.PORT || '5000', 10);
 const MONGODB_URI: string =
   process.env.MONGODB_URI || 'mongodb://localhost:27017/shopgrid';
 
-// Connect to MongoDB
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1);
-  });
-
 // Security middleware
 app.use(helmet());
 app.use(
@@ -63,8 +54,22 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+// Connect to MongoDB and start server if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+  mongoose
+    .connect(MONGODB_URI)
+    .then(() => {
+      console.log('Connected to MongoDB');
+      app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('MongoDB connection error:', err);
+      process.exit(1);
+    });
+}
 
 export default app;
+
+
