@@ -1,5 +1,7 @@
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
+import { CategorySkeleton } from './Skeleton';
+
 
 interface FilterModalProps {
     isOpen: boolean;
@@ -7,15 +9,19 @@ interface FilterModalProps {
     categories: string[];
     selectedCategory: string;
     onSelectCategory: (category: string) => void;
+    isLoading: boolean;
 }
+
 
 export function FilterModal({
     isOpen,
     onClose,
     categories,
     selectedCategory,
-    onSelectCategory
+    onSelectCategory,
+    isLoading
 }: FilterModalProps) {
+
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -51,34 +57,38 @@ export function FilterModal({
                     </div>
 
                     <div className="max-h-[50vh] overflow-y-auto p-6 pt-4 scrollbar-hide">
-
-                        <div className="grid grid-cols-1 gap-2">
-                            <button
-                                onClick={() => onSelectCategory('')}
-                                className={`flex items-center justify-between rounded-xl border p-3.5 text-left transition-all duration-300 ${selectedCategory === ''
-                                    ? 'border-blue-500/50 bg-blue-500/10 text-white shadow-lg shadow-blue-500/5'
-                                    : 'border-white/5 bg-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10 hover:text-white'
-                                    }`}
-                            >
-                                <span className="text-sm font-medium">All Categories</span>
-                                {selectedCategory === '' && <CheckIcon className="h-4 w-4 text-blue-400" />}
-                            </button>
-
-                            {categories.map((category) => (
+                        {isLoading ? (
+                            <CategorySkeleton />
+                        ) : (
+                            <div className="grid grid-cols-1 gap-2">
                                 <button
-                                    key={category}
-                                    onClick={() => onSelectCategory(category)}
-                                    className={`flex items-center justify-between rounded-xl border p-3.5 text-left transition-all duration-300 ${selectedCategory === category
+                                    onClick={() => onSelectCategory('')}
+                                    className={`flex items-center justify-between rounded-xl border p-3.5 text-left transition-all duration-300 ${selectedCategory === ''
                                         ? 'border-blue-500/50 bg-blue-500/10 text-white shadow-lg shadow-blue-500/5'
                                         : 'border-white/5 bg-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10 hover:text-white'
                                         }`}
                                 >
-                                    <span className="text-sm font-medium capitalize">{category}</span>
-                                    {selectedCategory === category && <CheckIcon className="h-4 w-4 text-blue-400" />}
+                                    <span className="text-sm font-medium">All Categories</span>
+                                    {selectedCategory === '' && <CheckIcon className="h-4 w-4 text-blue-400" />}
                                 </button>
-                            ))}
-                        </div>
+
+                                {categories.map((category) => (
+                                    <button
+                                        key={category}
+                                        onClick={() => onSelectCategory(category)}
+                                        className={`flex items-center justify-between rounded-xl border p-3.5 text-left transition-all duration-300 ${selectedCategory === category
+                                            ? 'border-blue-500/50 bg-blue-500/10 text-white shadow-lg shadow-blue-500/5'
+                                            : 'border-white/5 bg-white/5 text-gray-400 hover:border-white/10 hover:bg-white/10 hover:text-white'
+                                            }`}
+                                    >
+                                        <span className="text-sm font-medium capitalize">{category}</span>
+                                        {selectedCategory === category && <CheckIcon className="h-4 w-4 text-blue-400" />}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
+
                 </div>
             </div>
         </div>

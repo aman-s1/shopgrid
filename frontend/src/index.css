@@ -2,6 +2,7 @@
 
 @theme {
   --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-shimmer: shimmer 2s infinite linear;
 
   @keyframes fade-in-up {
     0% {
@@ -14,7 +15,18 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
 }
+
 
 /* Standard Tailwind 4 reset is handled by @import 'tailwindcss' */
 body {
@@ -52,7 +64,17 @@ body {
   display: none;
 }
 
+/* Hide scrollbar for IE, Edge and Firefox */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.01) 25%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.01) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
 }

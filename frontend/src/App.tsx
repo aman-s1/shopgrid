@@ -4,6 +4,8 @@ import { Navbar } from './components/Navbar';
 import { Pagination } from './components/Pagination';
 import { FilterModal } from './components/FilterModal';
 import { useProducts } from './hooks/useProducts';
+import { PaginationSkeleton } from './components/Skeleton';
+
 
 
 
@@ -64,6 +66,15 @@ function App() {
     setCurrentPage(1); // Reset to first page when search changes
   };
 
+  const handleReset = () => {
+    setSearchQuery('');
+    setSelectedCategory('');
+    setCurrentPage(1);
+    setIsFilterOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+
 
 
 
@@ -73,8 +84,10 @@ function App() {
         onOpenFilter={() => setIsFilterOpen(true)}
         activeFilter={!!selectedCategory}
         onSearch={handleSearch}
+        onReset={handleReset}
         initialSearch={searchQuery}
       />
+
 
 
       <main className="layout-container flex flex-grow flex-col pt-32 pb-24">
@@ -87,7 +100,8 @@ function App() {
           />
 
 
-          {pagination && (
+
+          {pagination ? (
             <div className="mt-auto">
               <Pagination
                 currentPage={currentPage}
@@ -95,8 +109,11 @@ function App() {
                 onPageChange={handlePageChange}
               />
             </div>
-          )}
+          ) : loading ? (
+            <PaginationSkeleton />
+          ) : null}
         </div>
+
       </main>
 
       <FilterModal
@@ -105,7 +122,9 @@ function App() {
         categories={categories}
         selectedCategory={selectedCategory}
         onSelectCategory={handleCategoryChange}
+        isLoading={loading}
       />
+
     </div>
 
   );

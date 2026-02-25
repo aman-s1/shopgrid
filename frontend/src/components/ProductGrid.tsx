@@ -3,19 +3,36 @@ import type { Product } from '../types';
 
 function SkeletonCard() {
     return (
-        <div className="flex h-full animate-pulse flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-[#111118] shadow-lg backdrop-blur-xl">
-            <div className="aspect-square w-full bg-white/5 sm:aspect-[4/3]"></div>
+        <div className="shimmer flex h-full animate-pulse flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-[#111118] shadow-lg backdrop-blur-xl">
+            {/* Image Placeholder */}
+            <div className="relative aspect-square w-full overflow-hidden bg-white/5 sm:aspect-[4/3]">
+                <div className="absolute top-4 left-4 h-6 w-16 rounded-full bg-white/10"></div>
+            </div>
+
             <div className="flex flex-grow flex-col p-6 sm:p-7">
+                {/* Category Placeholder */}
+                <div className="mb-2 h-4 w-20 rounded bg-white/5"></div>
+
+                {/* Title Placeholder */}
                 <div className="mb-3 h-6 w-3/4 rounded-md bg-white/10"></div>
-                <div className="mb-6 h-5 w-1/2 rounded-md bg-white/10"></div>
-                <div className="mt-auto flex items-end justify-between border-t border-white/5 pt-4">
-                    <div className="h-8 w-1/3 rounded-md bg-white/10"></div>
-                    <div className="h-10 w-10 flex-shrink-0 rounded-2xl bg-white/10 sm:hidden"></div>
+
+                {/* Price Placeholder */}
+                <div className="mb-6 h-7 w-24 rounded-md bg-gradient-to-r from-white/10 to-transparent"></div>
+
+                {/* Footer Placeholder */}
+                <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-4">
+                    <div className="flex space-x-1">
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="h-3 w-3 rounded-full bg-white/5"></div>
+                        ))}
+                    </div>
+                    <div className="h-10 w-24 rounded-xl bg-white/5"></div>
                 </div>
             </div>
         </div>
     );
 }
+
 
 interface ProductGridProps {
     products: Product[];
