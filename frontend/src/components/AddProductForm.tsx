@@ -10,9 +10,11 @@ import {
 
 export function AddProductForm() {
   const { addProduct } = useShop();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState({
+    loading: false,
+    success: false,
+    error: null as string | null,
+  });
 
   const [formData, setFormData] = useState({
     title: '',
@@ -65,12 +67,16 @@ export function AddProductForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
+    setStatus({ loading: true, success: false, error: null });
 
-    if (!validate()) return;
-
-    setLoading(true);
+    if (!validate()) {
+      setStatus({
+        loading: false,
+        success: false,
+        error: 'Please match the required fields',
+      });
+      return;
+    }
     try {
       await addProduct({
         title: formData.title,
@@ -78,15 +84,19 @@ export function AddProductForm() {
         category: formData.category,
         image: formData.image,
       });
-      setSuccess(true);
+      setStatus({ loading: false, success: true, error: null });
       setFormData({ title: '', price: '', category: '', image: '' });
-      setTimeout(() => setSuccess(false), 5000);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'An unexpected error occurred'
+      setTimeout(
+        () => setStatus((prev) => ({ ...prev, success: false })),
+        5000
       );
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      setStatus({
+        loading: false,
+        success: false,
+        error:
+          err instanceof Error ? err.message : 'An unexpected error occurred',
+      });
     }
   };
 
@@ -208,7 +218,7 @@ export function AddProductForm() {
                 </div>
               </div>
 
-              {success && (
+              {status.success && (
                 <div className="animate-fade-in-up flex items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-emerald-400">
                   <CheckCircleIcon className="h-5 w-5 shrink-0" />
                   <p className="text-sm font-medium">
@@ -217,19 +227,19 @@ export function AddProductForm() {
                 </div>
               )}
 
-              {error && (
+              {status.error && (
                 <div className="animate-fade-in-up flex items-center gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-red-400">
                   <ExclamationCircleIcon className="h-5 w-5 shrink-0" />
-                  <p className="text-sm font-medium">{error}</p>
+                  <p className="text-sm font-medium">{status.error}</p>
                 </div>
               )}
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={status.loading}
                 className={`group relative flex w-full items-center justify-center gap-3 rounded-2xl bg-white py-5 text-lg font-black text-black transition-all hover:scale-[1.01] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50`}
               >
-                {loading ? (
+                {status.loading ? (
                   <div className="h-6 w-6 animate-spin rounded-full border-2 border-black/20 border-t-black"></div>
                 ) : (
                   <>

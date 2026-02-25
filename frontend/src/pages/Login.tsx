@@ -13,8 +13,10 @@ import { API_URL } from '../env';
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [formState, setFormState] = useState({
+    loading: false,
+    error: null as string | null,
+  });
 
   const [formData, setFormData] = useState({
     email: '',
@@ -23,8 +25,7 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
+    setFormState({ loading: true, error: null });
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -44,11 +45,11 @@ export default function Login() {
 
       navigate('/');
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'An unexpected error occurred'
-      );
-    } finally {
-      setLoading(false);
+      setFormState({
+        loading: false,
+        error:
+          err instanceof Error ? err.message : 'An unexpected error occurred',
+      });
     }
   };
 
@@ -105,11 +106,11 @@ export default function Login() {
               </div>
             </div>
 
-            {error && (
+            {formState.error && (
               <div className="animate-shake flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-red-400">
                 <ExclamationCircleIcon className="h-5 w-5 shrink-0" />
                 <p className="text-xs font-bold tracking-wider uppercase">
-                  {error}
+                  {formState.error}
                 </p>
               </div>
             )}
@@ -117,10 +118,10 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={formState.loading}
                 className="group relative flex w-full transform justify-center rounded-2xl border border-transparent bg-white px-4 py-4 text-sm font-black text-black transition-all hover:bg-gray-100 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:outline-none active:scale-95 disabled:opacity-50"
               >
-                {loading ? (
+                {formState.loading ? (
                   <div className="h-5 w-5 animate-spin rounded-full border-2 border-black/20 border-t-black"></div>
                 ) : (
                   <span className="flex items-center gap-2">
