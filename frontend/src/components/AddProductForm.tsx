@@ -80,7 +80,6 @@ export function AddProductForm() {
       });
       setSuccess(true);
       setFormData({ title: '', price: '', category: '', image: '' });
-      // Hide success message after 5 seconds
       setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
       setError(
@@ -94,7 +93,6 @@ export function AddProductForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -102,7 +100,6 @@ export function AddProductForm() {
 
   return (
     <section id="add-product" className="relative overflow-hidden py-24">
-      {/* Background elements */}
       <div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/5 blur-[120px]"></div>
 
       <div className="layout-container relative z-10">
@@ -120,7 +117,6 @@ export function AddProductForm() {
           <div className="rounded-[2.5rem] border border-white/5 bg-white/2 p-8 shadow-2xl backdrop-blur-xl sm:p-12">
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {/* Title */}
                 <div className="space-y-2">
                   <label className="ml-1 text-sm font-bold text-gray-400">
                     Product Title
@@ -143,7 +139,6 @@ export function AddProductForm() {
                   )}
                 </div>
 
-                {/* Price */}
                 <div className="space-y-2">
                   <label className="ml-1 text-sm font-bold text-gray-400">
                     Price (INR)
@@ -166,7 +161,6 @@ export function AddProductForm() {
                   )}
                 </div>
 
-                {/* Category */}
                 <div className="space-y-2">
                   <label className="ml-1 text-sm font-bold text-gray-400">
                     Category
@@ -191,7 +185,6 @@ export function AddProductForm() {
                   )}
                 </div>
 
-                {/* Image URL */}
                 <div className="space-y-2">
                   <label className="ml-1 text-sm font-bold text-gray-400">
                     Image URL
@@ -215,7 +208,6 @@ export function AddProductForm() {
                 </div>
               </div>
 
-              {/* Status Messages */}
               {success && (
                 <div className="animate-fade-in-up flex items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-emerald-400">
                   <CheckCircleIcon className="h-5 w-5 shrink-0" />

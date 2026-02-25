@@ -10,7 +10,6 @@ const JWT_SECRET =
 const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN ||
   '7d') as jwt.SignOptions['expiresIn'];
 
-// POST /api/auth/register
 router.post(
   '/register',
   [
@@ -35,7 +34,6 @@ router.post(
     const { username, email, password } = req.body;
 
     try {
-      // Check if user already exists
       let user = await User.findOne({ $or: [{ email }, { username }] });
       if (user) {
         return res.status(400).json({ error: 'User already exists' });
@@ -70,7 +68,6 @@ router.post(
   }
 );
 
-// POST /api/auth/login
 router.post(
   '/login',
   [
@@ -125,7 +122,6 @@ router.post(
   }
 );
 
-// GET /api/auth/me
 router.get('/me', auth, async (req: AuthRequest, res: Response) => {
   try {
     const user = await User.findById(req.user?.id).select('-password');
@@ -139,7 +135,6 @@ router.get('/me', auth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-// POST /api/auth/logout
 router.post('/logout', (_req: Request, res: Response) => {
   res.clearCookie('token');
   res.json({ message: 'Logged out successfully' });

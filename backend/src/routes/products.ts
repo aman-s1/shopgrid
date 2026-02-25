@@ -9,7 +9,6 @@ import NodeCache from 'node-cache';
 
 const router = Router();
 
-// Initialize cache with 5 minutes standard TTL
 const productCache = new NodeCache({ stdTTL: 300 });
 
 router.get(
@@ -59,7 +58,6 @@ router.get(
       const queryObj: any = {};
 
       if (search) {
-        // Use case-insensitive regex search for partial matching
         queryObj.title = { $regex: search.trim(), $options: 'i' };
       }
 
@@ -73,14 +71,13 @@ router.get(
 
       const products = await Product.find(queryObj)
         .sort({ createdAt: -1 })
-
         .skip(startIndex)
         .limit(limitNum);
 
       const categories = await Product.distinct('category');
 
       const result: ProductsResponse = {
-        products: products as any, // Cast due to Document type
+        products: products as any,
         pagination: {
           totalItems,
           totalPages,

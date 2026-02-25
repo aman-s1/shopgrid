@@ -19,10 +19,8 @@ const ProductSchema: Schema = new Schema(
   }
 );
 
-// Text index for search functionality
 ProductSchema.index({ title: 'text' });
 
-// Optimizing for sorting and filtering
 ProductSchema.index({ createdAt: -1 });
 ProductSchema.index({ category: 1, createdAt: -1 });
 

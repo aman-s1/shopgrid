@@ -28,7 +28,6 @@ const UserSchema: Schema = new Schema(
   }
 );
 
-// Hash password before saving
 UserSchema.pre('save', async function (this: IUser) {
   if (!this.isModified('password')) return;
 
@@ -40,7 +39,6 @@ UserSchema.pre('save', async function (this: IUser) {
   }
 });
 
-// Method to compare passwords
 UserSchema.methods.comparePassword = async function (
   this: IUser,
   password: string

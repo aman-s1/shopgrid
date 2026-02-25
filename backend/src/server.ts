@@ -15,7 +15,6 @@ const PORT: number = parseInt(process.env.PORT || '5000', 10);
 const MONGODB_URI: string =
   process.env.MONGODB_URI || 'mongodb://localhost:27017/shopgrid';
 
-// Security middleware
 app.use(helmet());
 app.use(
   cors({
@@ -26,35 +25,29 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-// Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000,
   max: 100,
   message: { error: 'Too many requests, please try again later.' },
 });
 app.use('/api', limiter);
 
-// Routes
 app.use('/api/auth', authRouter);
 app.use('/api/products', productsRouter);
 
-// Health check
 app.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'ShopGrid API is running' });
 });
 
-// 404 handler
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Global error handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Connect to MongoDB and start server if not in test mode
 if (process.env.NODE_ENV !== 'test') {
   mongoose
     .connect(MONGODB_URI)
@@ -71,5 +64,3 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 export default app;
-
-
