@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ShoppingBagIcon, SparklesIcon, RocketLaunchIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { AddProductForm } from '../components/AddProductForm';
+import { useAuth } from '../context/AuthContext';
 
 export default function Home() {
+    const { isAuthenticated, user } = useAuth();
+
+
     return (
         <div className="flex min-h-screen flex-col bg-[#0f0f13] text-gray-100 selection:bg-blue-500/30">
             {/* Hero Section */}
@@ -46,10 +50,26 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Add Product Form Section */}
-                <AddProductForm />
+                {/* Admin Add Product Section */}
+                {isAuthenticated && user?.role === 'admin' && (
+                    <section className="border-t border-white/5 bg-white/[0.02] py-20">
+                        <div className="layout-container">
+                            <div className="mb-12 text-center">
+                                <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                                    Admin Dashboard
+                                </h2>
+                                <p className="mx-auto max-w-2xl text-lg text-gray-400">
+                                    List new experimental products and handle inventory from this panel.
+                                </p>
+                            </div>
+                            <AddProductForm />
+                        </div>
+                    </section>
+                )}
+
 
                 {/* Features Highlight */}
+
 
                 <section className="border-t border-white/5 bg-black/20 py-24 backdrop-blur-sm">
                     <div className="layout-container">

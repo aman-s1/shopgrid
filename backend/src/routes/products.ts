@@ -2,6 +2,9 @@ import { Router, Request, Response } from 'express';
 import { query, body, validationResult } from 'express-validator';
 import Product from '../models/Product';
 import { ProductsResponse } from '../types';
+import { auth, AuthRequest } from '../middleware/auth';
+import { admin } from '../middleware/admin';
+
 
 const router = Router();
 
@@ -94,7 +97,10 @@ router.get(
 // POST /api/products
 router.post(
   '/',
+  auth,
+  admin,
   [
+
     body('title').isString().trim().notEmpty().withMessage('Title is required'),
     body('price').isNumeric().withMessage('Price must be a number'),
     body('category')

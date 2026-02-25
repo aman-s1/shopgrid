@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import type { Product, PaginationMeta } from '../types';
 import { useProducts } from '../hooks/useProducts';
 
@@ -74,10 +76,12 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     }, []);
 
     const addProduct = useCallback(async (productData: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>) => {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${API_URL}/products`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(productData),
         });
@@ -92,8 +96,13 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     }, [refreshProducts]);
 
 
-    // URL Sync (updates browser history when state changes)
+
+    const location = useLocation();
+
+    // URL Sync (updates browser history when state changes, only on shop page)
     useEffect(() => {
+        if (!location.pathname.startsWith('/shop')) return;
+
         const url = new URL(window.location.href);
         const currentParams = new URLSearchParams(url.search);
 
@@ -125,7 +134,8 @@ export function ShopProvider({ children }: { children: ReactNode }) {
         if (changed) {
             window.history.pushState({}, '', url.toString());
         }
-    }, [currentPage, selectedCategory, searchQuery]);
+    }, [currentPage, selectedCategory, searchQuery, location.pathname]);
+
 
     const handlePageChange = useCallback((page: number) => {
         setCurrentPage(page);

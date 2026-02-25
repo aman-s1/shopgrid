@@ -1,21 +1,31 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navbar } from './components/Navbar';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ShopProvider } from './context/ShopContext';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
-    <Router>
-      <div className="flex min-h-screen flex-col bg-[#0f0f13] font-sans text-gray-100">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-        </Routes>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <AuthProvider>
+        <ShopProvider>
+          <div className="min-h-screen bg-[#050508] text-white">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </div>
+        </ShopProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
-export default App;
 
+export default App;

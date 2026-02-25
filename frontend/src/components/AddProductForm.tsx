@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useShop } from '../context/ShopContext';
-import { PhotoIcon, TagIcon, CurrencyDollarIcon, RocketLaunchIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, TagIcon, RocketLaunchIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 export function AddProductForm() {
     const { addProduct } = useShop();

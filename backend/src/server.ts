@@ -1,12 +1,14 @@
 import * as dotenv from 'dotenv';
+dotenv.config();
+
 import mongoose from 'mongoose';
 import express, { Application, Request, Response, NextFunction } from 'express';
-import cors from 'cors';
 import helmet from 'helmet';
+import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import authRouter from './routes/auth';
 import productsRouter from './routes/products';
 
-dotenv.config();
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || '5000', 10);
@@ -36,6 +38,7 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Routes
+app.use('/api/auth', authRouter);
 app.use('/api/products', productsRouter);
 
 // Health check
