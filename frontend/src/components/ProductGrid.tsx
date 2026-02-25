@@ -1,5 +1,5 @@
-import { useProducts } from '../hooks/useProducts';
 import { ProductCard } from './ProductCard';
+import type { Product } from '../types';
 
 function SkeletonCard() {
     return (
@@ -17,8 +17,14 @@ function SkeletonCard() {
     );
 }
 
-export function ProductGrid() {
-    const { products, loading, error } = useProducts();
+interface ProductGridProps {
+    products: Product[];
+    loading: boolean;
+    error: string | null;
+}
+
+export function ProductGrid({ products, loading, error }: ProductGridProps) {
+
 
     if (loading) {
         return (
