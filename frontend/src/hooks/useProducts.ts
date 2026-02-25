@@ -10,6 +10,13 @@ export function useProducts(page = 1, limit = 8, search = '', category = '') {
     const [categories, setCategories] = useState<string[]>([]);
     const [pagination, setPagination] = useState<PaginationMeta | null>(null);
 
+    const [activeParams, setActiveParams] = useState({ page, limit, search, category });
+
+    if (page !== activeParams.page || limit !== activeParams.limit || search !== activeParams.search || category !== activeParams.category) {
+        setLoading(true);
+        setActiveParams({ page, limit, search, category });
+    }
+
     useEffect(() => {
         const controller = new AbortController();
 
@@ -32,15 +39,17 @@ export function useProducts(page = 1, limit = 8, search = '', category = '') {
                 if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
                 const data: ProductsResponse = await res.json();
+
+                // Batch updates
                 setProducts(data.products);
                 setCategories(data.categories);
                 setPagination(data.pagination);
+                setLoading(false);
             } catch (err) {
                 if ((err as Error).name !== 'AbortError') {
                     setError('Failed to load products. Please try again.');
+                    setLoading(false);
                 }
-            } finally {
-                setLoading(false);
             }
         }
 
@@ -51,4 +60,5 @@ export function useProducts(page = 1, limit = 8, search = '', category = '') {
 
     return { products, loading, error, categories, pagination };
 }
+
 
