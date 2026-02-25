@@ -9,7 +9,6 @@ import rateLimit from 'express-rate-limit';
 import authRouter from './routes/auth';
 import productsRouter from './routes/products';
 
-
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || '5000', 10);
 const MONGODB_URI: string =

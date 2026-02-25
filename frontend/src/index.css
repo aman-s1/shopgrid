@@ -27,7 +27,6 @@
   }
 }
 
-
 /* Standard Tailwind 4 reset is handled by @import 'tailwindcss' */
 body {
   font-family: 'Inter', sans-serif;
@@ -37,7 +36,6 @@ body {
   margin: 0;
 }
 
-
 .layout-container {
   width: 100%;
   max-width: 1440px;
@@ -45,7 +43,6 @@ body {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
-
 
 @media (min-width: 640px) {
   .layout-container {
@@ -72,10 +69,12 @@ body {
 }
 
 .shimmer {
-  background: linear-gradient(90deg,
-      rgba(255, 255, 255, 0.01) 25%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.01) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.01) 25%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.01) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 3s infinite linear;
 }

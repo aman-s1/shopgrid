@@ -5,7 +5,6 @@ import { ProductsResponse } from '../types';
 import { auth, AuthRequest } from '../middleware/auth';
 import { admin } from '../middleware/admin';
 
-
 const router = Router();
 
 // GET /api/products
@@ -54,7 +53,6 @@ router.get(
         queryObj.title = { $regex: search.trim(), $options: 'i' };
       }
 
-
       if (categoryFilter) {
         queryObj.category = categoryFilter;
       }
@@ -100,7 +98,6 @@ router.post(
   auth,
   admin,
   [
-
     body('title').isString().trim().notEmpty().withMessage('Title is required'),
     body('price').isNumeric().withMessage('Price must be a number'),
     body('category')
