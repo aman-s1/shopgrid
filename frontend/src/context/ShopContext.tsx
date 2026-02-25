@@ -38,9 +38,9 @@ interface ShopContextType {
     ) => Promise<void>;
 }
 
-const ShopContext = createContext<ShopContextType | undefined>(undefined);
+export const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { API_URL } from '../env';
 
 export function ShopProvider({ children }: { children: ReactNode }) {
     const getParams = useCallback(() => {
