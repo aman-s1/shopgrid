@@ -5,14 +5,14 @@ import {
     ChevronDoubleRightIcon
 } from '@heroicons/react/24/outline';
 
-interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
-}
+import { useShop } from '../context/ShopContext';
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
-    if (totalPages <= 1) return null;
+export function Pagination() {
+    const { pagination, currentPage, handlePageChange } = useShop();
+    if (!pagination || pagination.totalPages <= 1) return null;
+    const { totalPages } = pagination;
+    const onPageChange = handlePageChange;
+
 
     const getPageNumbers = () => {
         const pages: (number | string)[] = [];

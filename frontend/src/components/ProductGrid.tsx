@@ -1,5 +1,5 @@
 import { ProductCard } from './ProductCard';
-import type { Product } from '../types';
+import { useShop } from '../context/ShopContext';
 
 function SkeletonCard() {
     return (
@@ -33,14 +33,9 @@ function SkeletonCard() {
     );
 }
 
+export function ProductGrid() {
+    const { products, loading, error } = useShop();
 
-interface ProductGridProps {
-    products: Product[];
-    loading: boolean;
-    error: string | null;
-}
-
-export function ProductGrid({ products, loading, error }: ProductGridProps) {
 
 
     if (loading) {

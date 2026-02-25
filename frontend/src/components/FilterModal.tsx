@@ -3,24 +3,23 @@ import { useEffect } from 'react';
 import { CategorySkeleton } from './Skeleton';
 
 
-interface FilterModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    categories: string[];
-    selectedCategory: string;
-    onSelectCategory: (category: string) => void;
-    isLoading: boolean;
-}
+import { useShop } from '../context/ShopContext';
 
+export function FilterModal() {
+    const {
+        isFilterOpen,
+        setIsFilterOpen,
+        categories,
+        selectedCategory,
+        handleCategoryChange,
+        loading
+    } = useShop();
 
-export function FilterModal({
-    isOpen,
-    onClose,
-    categories,
-    selectedCategory,
-    onSelectCategory,
-    isLoading
-}: FilterModalProps) {
+    const isOpen = isFilterOpen;
+    const onClose = () => setIsFilterOpen(false);
+    const onSelectCategory = handleCategoryChange;
+    const isLoading = loading;
+
 
     useEffect(() => {
         if (isOpen) {

@@ -1,32 +1,33 @@
 import { FunnelIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
+import { useShop } from '../context/ShopContext';
 
-interface NavbarProps {
-    onOpenFilter: () => void;
-    activeFilter?: boolean;
-    onSearch: (query: string) => void;
-    onReset?: () => void;
-    initialSearch?: string;
-}
+export function Navbar() {
+    const {
+        searchQuery,
+        selectedCategory,
+        handleSearch,
+        handleReset,
+        setIsFilterOpen
+    } = useShop();
 
-export function Navbar({ onOpenFilter, activeFilter, onSearch, onReset, initialSearch = '' }: NavbarProps) {
-
-    const [searchTerm, setSearchTerm] = useState(initialSearch);
+    const [searchTerm, setSearchTerm] = useState(searchQuery);
 
     useEffect(() => {
-        setSearchTerm(initialSearch);
-    }, [initialSearch]);
+        setSearchTerm(searchQuery);
+    }, [searchQuery]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchTerm.length === 0 || searchTerm.length >= 3) {
-                onSearch(searchTerm);
+                handleSearch(searchTerm);
             }
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [searchTerm, onSearch]);
+    }, [searchTerm, handleSearch]);
 
+    const activeFilter = !!selectedCategory;
 
     return (
         <header className="sticky top-0 z-50 h-20 border-b border-white/[0.03] bg-[#0c0c11]/80 shadow-2xl shadow-blue-500/5 backdrop-blur-2xl">
@@ -34,7 +35,7 @@ export function Navbar({ onOpenFilter, activeFilter, onSearch, onReset, initialS
                 <div className="flex h-full items-center justify-between">
                     <div className="flex flex-1 items-center space-x-4 sm:space-x-8">
                         <h1
-                            onClick={onReset}
+                            onClick={handleReset}
                             className="cursor-pointer bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-xl font-black tracking-tighter text-transparent drop-shadow-sm transition-transform duration-300 hover:scale-[1.02] sm:text-3xl"
                         >
                             ShopGrid
@@ -64,9 +65,8 @@ export function Navbar({ onOpenFilter, activeFilter, onSearch, onReset, initialS
                     </div>
 
                     <div className="flex items-center">
-
                         <button
-                            onClick={onOpenFilter}
+                            onClick={() => setIsFilterOpen(true)}
                             className={`relative mr-6 flex cursor-pointer items-center justify-center rounded-full border border-white/5 p-2.5 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-white/5 ${activeFilter ? 'bg-blue-500/10 text-blue-400' : 'bg-white/5 text-white'
                                 }`}
                         >
@@ -76,10 +76,9 @@ export function Navbar({ onOpenFilter, activeFilter, onSearch, onReset, initialS
                             )}
                         </button>
                     </div>
-
-
                 </div>
             </div>
         </header>
     );
 }
+
