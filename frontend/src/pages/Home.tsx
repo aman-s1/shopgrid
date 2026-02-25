@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ShoppingBagIcon, SparklesIcon, RocketLaunchIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { AddProductForm } from '../components/AddProductForm';
 
 export default function Home() {
     return (
@@ -45,7 +46,11 @@ export default function Home() {
                     </div>
                 </section>
 
+                {/* Add Product Form Section */}
+                <AddProductForm />
+
                 {/* Features Highlight */}
+
                 <section className="border-t border-white/5 bg-black/20 py-24 backdrop-blur-sm">
                     <div className="layout-container">
                         <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">

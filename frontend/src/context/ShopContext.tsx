@@ -23,9 +23,12 @@ interface ShopContextType {
     handleCategoryChange: (category: string) => void;
     handlePageChange: (page: number) => void;
     handleReset: () => void;
+    addProduct: (product: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export function ShopProvider({ children }: { children: ReactNode }) {
     const getParams = useCallback(() => {
@@ -41,6 +44,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     const [selectedCategory, setSelectedCategory] = useState(() => getParams().category);
     const [searchQuery, setSearchQuery] = useState(() => getParams().search);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     // Sync state with browser navigation (back/forward)
     useEffect(() => {
@@ -60,8 +64,33 @@ export function ShopProvider({ children }: { children: ReactNode }) {
         currentPage,
         8,
         searchQuery,
-        selectedCategory
+        selectedCategory,
+        refreshTrigger
     );
+
+    // Manual refresh for after adding a product
+    const refreshProducts = useCallback(() => {
+        setRefreshTrigger(prev => prev + 1);
+    }, []);
+
+    const addProduct = useCallback(async (productData: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>) => {
+        const response = await fetch(`${API_URL}/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to add product');
+        }
+
+        // Trigger a refresh of categories and products
+        refreshProducts();
+    }, [refreshProducts]);
+
 
     // URL Sync (updates browser history when state changes)
     useEffect(() => {
@@ -140,6 +169,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
         handleCategoryChange,
         handlePageChange,
         handleReset,
+        addProduct,
     }), [
         products,
         loading,
@@ -154,7 +184,9 @@ export function ShopProvider({ children }: { children: ReactNode }) {
         handleCategoryChange,
         handlePageChange,
         handleReset,
+        addProduct,
     ]);
+
 
 
     return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
