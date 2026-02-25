@@ -48,8 +48,14 @@ router.post(
         expiresIn: JWT_EXPIRES_IN,
       });
 
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
       res.status(201).json({
-        token,
         user: {
           id: user._id,
           username: user.username,
@@ -97,8 +103,14 @@ router.post(
         expiresIn: JWT_EXPIRES_IN,
       });
 
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
       res.json({
-        token,
         user: {
           id: user._id,
           username: user.username,
@@ -125,6 +137,12 @@ router.get('/me', auth, async (req: AuthRequest, res: Response) => {
     console.error('Fetch user error:', err);
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+// POST /api/auth/logout
+router.post('/logout', (_req: Request, res: Response) => {
+  res.clearCookie('token');
+  res.json({ message: 'Logged out successfully' });
 });
 
 export default router;
