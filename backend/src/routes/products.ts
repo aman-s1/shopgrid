@@ -5,10 +5,13 @@ import { ProductsResponse } from '../types';
 import { auth, AuthRequest } from '../middleware/auth';
 import { admin } from '../middleware/admin';
 
+import NodeCache from 'node-cache';
+
 const router = Router();
 
-// GET /api/products
-// Query params: search, category, page, limit
+// Initialize cache with 5 minutes standard TTL
+const productCache = new NodeCache({ stdTTL: 300 });
+
 router.get(
   '/',
   [
@@ -44,8 +47,15 @@ router.get(
     const pageNum = parseInt((req.query.page as string) || '1', 10);
     const limitNum = parseInt((req.query.limit as string) || '8', 10);
 
+    const cacheKey = `products_search:${search}_cat:${categoryFilter}_page:${pageNum}_limit:${limitNum}`;
+    const cachedResult = productCache.get(cacheKey);
+
+    if (cachedResult) {
+      res.json(cachedResult);
+      return;
+    }
+
     try {
-      // Build MongoDB query
       const queryObj: any = {};
 
       if (search) {
@@ -57,7 +67,6 @@ router.get(
         queryObj.category = categoryFilter;
       }
 
-      // Pagination and count
       const totalItems = await Product.countDocuments(queryObj);
       const totalPages = Math.ceil(totalItems / limitNum);
       const startIndex = (pageNum - 1) * limitNum;
@@ -68,7 +77,6 @@ router.get(
         .skip(startIndex)
         .limit(limitNum);
 
-      // Get all unique categories for filter UI (can be optimized/cached)
       const categories = await Product.distinct('category');
 
       const result: ProductsResponse = {
@@ -82,6 +90,8 @@ router.get(
         categories: categories.sort(),
       };
 
+      productCache.set(cacheKey, result);
+
       res.json(result);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -92,7 +102,6 @@ router.get(
   }
 );
 
-// POST /api/products
 router.post(
   '/',
   auth,
@@ -122,6 +131,9 @@ router.post(
       const { title, price, category, image } = req.body;
       const newProduct = new Product({ title, price, category, image });
       await newProduct.save();
+
+      productCache.flushAll();
+
       res.status(201).json(newProduct);
     } catch (error) {
       console.error('Error creating product:', error);
@@ -132,7 +144,6 @@ router.post(
   }
 );
 
-// GET /api/products/:id
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const product = await Product.findById(req.params['id']);
@@ -144,7 +155,6 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     res.json(product);
   } catch (error) {
-    // Check if error is due to invalid ObjectId
     if (error instanceof Error && error.name === 'CastError') {
       res.status(400).json({ error: 'Invalid product ID format' });
       return;
