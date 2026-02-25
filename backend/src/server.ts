@@ -1,11 +1,26 @@
+import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import productsRouter from './routes/products';
 
+dotenv.config();
+
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || '5000', 10);
+const MONGODB_URI: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/shopgrid';
+
+console.log(MONGODB_URI);
+
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => {
+        console.error('MongoDB connection error:', err);
+        process.exit(1);
+    });
 
 // Security middleware
 app.use(helmet());
@@ -25,7 +40,7 @@ app.use('/api/products', productsRouter);
 
 // Health check
 app.get('/', (_req: Request, res: Response) => {
-    res.json({ message: 'ShopGrid API is running 🚀' });
+    res.json({ message: 'ShopGrid API is running' });
 });
 
 // 404 handler
@@ -40,7 +55,7 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });
 
 export default app;
