@@ -47,9 +47,10 @@ router.get(
       const queryObj: any = {};
 
       if (search) {
-        // Use text search if text index exists, otherwise regex
-        queryObj.$text = { $search: search };
+        // Use case-insensitive regex search for partial matching
+        queryObj.title = { $regex: search.trim(), $options: 'i' };
       }
+
 
       if (categoryFilter) {
         queryObj.category = categoryFilter;
@@ -61,7 +62,8 @@ router.get(
       const startIndex = (pageNum - 1) * limitNum;
 
       const products = await Product.find(queryObj)
-        .sort(search ? { score: { $meta: 'textScore' } } : { createdAt: -1 })
+        .sort({ createdAt: -1 })
+
         .skip(startIndex)
         .limit(limitNum);
 
