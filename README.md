@@ -100,3 +100,4 @@ The frontend utilizes a modern aesthetic with smooth micro-animations, glassmorp
 <img width="1919" height="979" alt="Screenshot 2026-02-26 125358" src="https://github.com/user-attachments/assets/97ed5670-4bf6-42d6-a307-8165787be8b3" />
 <img width="1919" height="976" alt="Screenshot 2026-02-26 125337" src="https://github.com/user-attachments/assets/1be9a64d-c7f3-4d72-a033-0092f9015ccf" />
 <img width="1919" height="975" alt="Screenshot 2026-02-26 125320" src="https://github.com/user-attachments/assets/3f145c6e-2f01-4189-89e2-d683098ce3ce" />
+<img width="1919" height="978" alt="Screenshot 2026-02-26 125740" src="https://github.com/user-attachments/assets/e11acaee-1a5f-4ef6-b500-3ab8bff499b3" />
